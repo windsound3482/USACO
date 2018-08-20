@@ -1,45 +1,87 @@
-# USACO
-http://train.usaco.org/usacoprob2?a=zjGlQXdR4su&S=ride
-It is a well-known fact that behind every good comet is a UFO. These UFOs often come to collect loyal supporters from here on Earth. Unfortunately, they only have room to pick up one group of followers on each trip. They do, however, let the groups know ahead of time which will be picked up for each comet by a clever scheme: they pick a name for the comet which, along with the name of the group, can be used to determine if it is a particular group's turn to go (who do you think names the comets?). The details of the matching scheme are given below; your job is to write a program which takes the names of a group and a comet and then determines whether the group should go with the UFO behind that comet.
+http://train.usaco.org/usacoprob2?a=VhbEn5hcGbx&S=gift1
+Task 'gift1': Greedy Gift Givers
+A group of NP (2 ≤ NP ≤ 10) uniquely named friends has decided to exchange gifts of money. Each of these friends might or might not give some money to some or all of the other friends (although some might be cheap and give to no one). Likewise, each friend might or might not receive money from any or all of the other friends. Your goal is to deduce how much more money each person receives than they give.
 
-Both the name of the group and the name of the comet are converted into a number in the following manner: the final number is just the product of all the letters in the name, where "A" is 1 and "Z" is 26. For instance, the group "USACO" would be 21 * 19 * 1 * 3 * 15 = 17955. If the group's number mod 47 is the same as the comet's number mod 47, then you need to tell the group to get ready! (Remember that "a mod b" is the remainder left over after dividing a by b; 34 mod 10 is 4.)
+The rules for gift-giving are potentially different than you might expect. Each person goes to the bank (or any other source of money) to get a certain amount of money to give and divides this money evenly among all those to whom he or she is giving a gift. No fractional money is available, so dividing 7 among 2 friends would be 3 each for the friends with 1 left over – that 1 left over goes into the giver's "account". All the participants' gift accounts start at 0 and are decreased by money given and increased by money received.
 
-Write a program which reads in the name of the comet and the name of the group and figures out whether according to the above scheme the names are a match, printing "GO" if they match and "STAY" if not. The names of the groups and the comets will be a string of capital letters with no spaces or punctuation, up to 6 characters long.
+In any group of friends, some people are more giving than others (or at least may have more acquaintances) and some people have more money than others.
 
-Examples:
+Given:
 
-Input	Output
-COMETQ
-HVNGAT
-GO
-ABSTAR
-USACO 
-STAY
-PROGRAM NAME: ride
-This means that you fill in your header with:
-PROG: ride 
-WARNING: You must have 'ride' in this field or the wrong test data (or no test data) will be used.
+a group of friends, no one of whom has a name longer than 14 characters,
+the money each person in the group spends on gifts, and
+a (sub)list of friends to whom each person gives gifts,
+determine how much money each person ends up with.
+IMPORTANT NOTE
+The grader machine is a Linux machine that uses standard Unix conventions: end of line is a single character often known as '\n'. This differs from Windows, which ends lines with two characters, '\n' and '\r'. Do not let your program get trapped by this!
+
+PROGRAM NAME: gift1
 INPUT FORMAT
-Line 1:	An upper case character string of length 1..6 that is the name of the comet.
-Line 2:	An upper case character string of length 1..6 that is the name of the group.
-NOTE: The input file has a newline at the end of each line but does not have a "return". Sometimes, programmers code for the Windows paradigm of "return" followed by "newline"; don't do that! Use simple input routines like "readln" (for Pascal) and, for C/C++, "fscanf" and "fid>>string".
 
-NOTE 2: Because of the extra characters, be sure to leave enough room for a 'newline' (also notated as '\n') and an end of string character ('\0') if your language uses it (as C and C++ do). This means you need eight characters of room instead of six.
-
-SAMPLE INPUT (file ride.in)
-COMETQ
-HVNGAT
+Line #	Contents
+1	A single integer, NP
+2..NP+1	Line i+1 contains the name of group member i
+NP+2..end	NP groups of lines organized like this:
+The first line of each group tells the person's name who will be giving gifts.
+The second line in the group contains two numbers:
+The amount of money (in the range 0..2000) to be divided into gifts by the giver
+NGi (1 ≤ NGi ≤ NP), the number of people to whom the giver will give gifts
+If NGi is nonzero, each of the next NGi lines lists the name of a recipient of a gift; recipients are not repeated in a single giver's list.
+SAMPLE INPUT (file gift1.in)
+5
+dave
+laura
+owen
+vick
+amr
+dave
+200 3
+laura
+owen
+vick
+owen
+500 1
+dave
+amr
+150 2
+vick
+owen
+laura
+0 2
+amr
+vick
+vick
+0 0
 OUTPUT FORMAT
-A single line containing either the word "GO" or the word "STAY".
-SAMPLE OUTPUT (file ride.out)
-GO
+The output is NP lines, each with the name of a person followed by a single blank followed by the net gain or loss (final_money_value - initial_money_value) for that person. The names should be printed in the same order they appear starting on line 2 of the input.
+
+All gifts are integers. Each person gives the same integer amount of money to each friend to whom any money is given, and gives as much as possible that meets this constraint. Any money not given is kept by the giver.
+
+SAMPLE OUTPUT (file gift1.out)
+dave 302
+laura 66
+owen -359
+vick 141
+amr -150
 OUTPUT EXPLANATION
-Converting the letters to numbers:
-C	O	M	E	T	Q	
-3	15	13	5	20	17	
-H	V	N	G	A	T
-8	22	14	7	1	20	
-then calculate the product mod 47:
-3 * 15 * 13 * 5 * 20 * 17 = 994500 mod 47 = 27
-8 * 22 * 14 * 7 *  1 * 20 = 344960 mod 47 = 27
-Because both products evaluate to 27 (when modded by 47), the mission is 'GO'. 
+Five names: dave, laura, owen, vick, amr. Let's keep a table of the gives (money) each person 'has':
+dave	laura	owen	vick	amr
+0	0	0	0	0
+First, 'dave' splits 200 among 'laura', 'owen', and 'vick'. That comes to 66 each, with 2 left over
+-200+2	+66	+66	+66	0
+→
+-198	66	66	66	0
+Second, 'owen' gives 500 to 'dave':
+-198+500	66	66-500	66	0
+→
+302	66	-434	66	0
+Third, 'amr' splits 150 between 'vick' and 'owen':
+302	66	-434+75	66+75	-150
+→
+302	66	-359	141	-150
+Fourth, 'laura' splits 0 between 'amr' and 'vick'; no changes:
+302	66	-359	141	-150
+Finally, 'vick' gives 0 to no one:
+dave	laura	owen	vick	amr
+302	66	-359	141	-150
+
