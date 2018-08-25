@@ -15,3 +15,7 @@ Das Benutzen des Usaco ist auch ein guter Weg, und ich m?chten mit Ihnen das mit
 Please change anything, that you think is wrong.
 请随意改动您认为不对的地方  
 Bitte korrigieren Sie die Gegenst?nde, die Sie falsch bewerten!!!
+
+In each dir there is a text(in .txt) for the discrption of the problem, and 3 programs in 3 different computer languages. You can use it whatever you want. And we also welcome the version of new languages.
+每个文件架中都有一篇关于这个问题的描述（txt文件），并且有相对应的用三个不同的编程语言写成的程序。 您可以随意使用这些东西。 我们也欢迎有新的语言的版本出现。
+In jedem Dir gibt es einen Textproduktion(.txt) ,um diesem Problem zu erklären, und auch 3 Programmen in 3 verschiedenen Programmierungssprachen. Sie können alles benutzen,wie Sie wollen. Auch willikommen wir von Ihnen Visionen über neue Sprachen.
